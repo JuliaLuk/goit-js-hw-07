@@ -12,9 +12,11 @@ function handelClick(event) {
   if (event.target === event.currentTarget) {
     return;
   }
+  console.log(event.currentTarget);
+
   const instance = basicLightbox.create(`
   	<div class="modal">
-        <img class="gallery__link" src="${"https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg"}" alt="#{description}" />
+        <img class="gallery__link" src="${event.target.dataset.source}" alt="{description}" />
       </div>
   `);
   instance.show();
@@ -23,14 +25,14 @@ function handelClick(event) {
 function createMarkup(arr) {
   return arr
     .map(
-      ({ preview, description }) => `
+      ({ preview, original, description }) => `
   <li class="item gallery__item">
-  <img class="gallery__image" src="${preview}" alt="${description}" width="300">
+  <img class="gallery__image" src="${preview}" alt="${description}" data-source = "${original}"width="300">
   </li>`
     )
     .join("");
 }
 
-console.log(createMarkup(galleryItems));
+// console.log(createMarkup(galleryItems));
 
 // console.log(galleryItems);
