@@ -14,12 +14,23 @@ function handelClick(event) {
   }
   console.log(event.currentTarget);
 
-  const instance = basicLightbox.create(`
+  const instance = simplelightbox.create(`
   	<div class="modal">
-        <img class="gallery__link" src="${event.target.dataset.source}" alt="{description}"/>
+        <img
+        class="gallery__link"
+        data-lightbox ="lbox"
+        data-src="${event.target.dataset.source}" 
+        alt="{description}"/>
       </div>
   `);
   instance.show();
+
+  // imgGallery.addEventListener("keydown", closePicture);
+  // function closePicture(event) {
+  //   if (event.code === "Escape") {
+  //     instance.close();
+  //   }
+  // }
 }
 
 function createMarkup(arr) {
@@ -27,12 +38,14 @@ function createMarkup(arr) {
     .map(
       ({ preview, original, description }) => `
   <li class="item gallery__item">
+   <a class="gallery__link">
   <img
   class="gallery__image lazyload"
   src="${preview}" 
   alt="${description}" 
   data-source = "${original}" 
   width="300">
+  </a>
   </li>`
     )
     .join("");
