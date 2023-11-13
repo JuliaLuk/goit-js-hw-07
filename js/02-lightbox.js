@@ -4,53 +4,24 @@ import { galleryItems } from "./gallery-items.js";
 const imgGallery = document.querySelector(".gallery");
 // console.log(imgGallery);
 
-imgGallery.insertAdjacentHTML("beforeend", createMarkup(galleryItems));
-
-imgGallery.addEventListener("click", handelClick);
-
-function handelClick(event) {
-  if (event.target === event.currentTarget) {
-    return;
-  }
-  console.log(event.currentTarget);
-
-  const instance = simplelightbox.create(`
-  	<div class="modal">
-        <img
-        class="gallery__link"
-        data-lightbox ="lbox"
-        data-src="${event.target.dataset.source}" 
-        alt="{description}"/>
-      </div>
-  `);
-  instance.show();
-
-  // imgGallery.addEventListener("keydown", closePicture);
-  // function closePicture(event) {
-  //   if (event.code === "Escape") {
-  //     instance.close();
-  //   }
-  // }
-}
-
-function createMarkup(arr) {
-  return arr
-    .map(
-      ({ preview, original, description }) => `
-  <li class="item gallery__item">
-   <a class="gallery__link">
-  <img
-  class="gallery__image lazyload"
-  src="${preview}" 
-  alt="${description}" 
-  data-source = "${original}" 
-  width="300">
+const markup = galleryItems.map(
+  ({ preview, description, original }) => `<li class="gallery__item">
+  <a class="gallery__link" href="${original}">
+    <img
+      class="gallery__image"
+      src="${preview}"
+      alt="${description}"
+    />
   </a>
-  </li>`
-    )
-    .join("");
-}
+</li>`
+);
 
-// console.log(createMarkup(galleryItems));
+imgGallery.insertAdjacentHTML("beforeend", markup.join(""));
 
-// console.log(galleryItems);
+new SimpleLightbox(".gallery a", {
+  captions: true,
+  captionDelay: 250,
+  captionSelector: "img",
+  captionType: "attr",
+  captionsData: "alt",
+});
